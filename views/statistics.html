@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            animation: slideIn 1s ease-in-out;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-out;
+        }
+        .result-title {
+            flex: 1;
+            font-size: 18px;
+            color: #555;
+        }
+        .result-value {
+            font-size: 20px;
+            color: #007bff;
+        }
+        .animation {
+            text-align: center;
+            margin-top: 50px;
+            animation: rotate 5s linear infinite, scaleUp 2s ease-in-out infinite alternate;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes scaleUp {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analysis Results</h1>
+        <div class="result-item">
+            <p class="result-title">Mean Yield:</p>
+            <p class="result-value" id="mean-yield"></p>
+        </div>
+        <div class="result-item">
+            <p class="result-title">Median Yield:</p>
+            <p class="result-value" id="median-yield"></p>
+        </div>
+        <div class="result-item">
+            <p class="result-title">Mode Yield:</p>
+            <p class="result-value" id="mode-yield"></p>
+        </div>
+        <div class="animation">
+            <img src="anime.gif" alt="Anime Animation" width="200">
+        </div>
+    </div>
+    <script>
+        // Fetching analysis results from the server
+        fetch('/analysis')
+            .then(response => response.text())
+            .then(data => {
+                // Extracting mean, median, and mode yield from the response
+                const meanYield = data.match(/Mean Yield: (.*)/)[1];
+                const medianYield = data.match(/Median Yield: (.*)/)[1];
+                const modeYield = data.match(/Mode Yield: (.*)/)[1];
+
+                // Displaying the results on the webpage
+                document.getElementById('mean-yield').textContent = meanYield;
+                document.getElementById('median-yield').textContent = medianYield;
+                document.getElementById('mode-yield').textContent = modeYield;
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>

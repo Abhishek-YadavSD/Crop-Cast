@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yield Prediction</title>
+    <link rel="icon" type="image/x-icon" href="static/images/agricultural.png">
+    <link rel="stylesheet" type="text/css" href="/static/css/style_yield.css">  
+    <style>
+        .matr{background:#000000;
+        text-align: center;
+    padding: 1% 0;
+margin-top: 1%;
+border: 4px solid white;
+border-radius: 25px;
+animation: glowBorder 2s infinite alternate;
+}
+
+        .matr>h3{color: white;
+        font-weight: 900;}
+
+        .matr>p{color: white;
+        font-weight: 500;}
+        @keyframes glowBorder {
+    0% {
+      border-color: rgba(5, 2, 192, 0.3);
+    }
+    50% {
+      border-color: rgba(18, 171, 49, 0.8);
+    }
+    100% {
+      border-color: rgba(171, 18, 155, 0.8);
+    }
+  }
+    </style> 
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/yield">Yield Prediction</a></li>
+            <li><a href="/mapping">Crop Mapping</a></li>
+            <li><a href="/analysis">Analysis</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>Yield Prediction</h1>
+        <form method="GET" action="/yield">
+            <label for="crop">Select a Crop:</label>
+            <select name="crop" id="crop">
+                <option value="" disabled selected>Select a Crop</option>
+                % for crop in crop_list:
+                    <option value="{{ crop }}">{{ crop }}</option>
+                % end
+            </select>
+            <button type="submit">Predict Yield</button>
+        </form>
+        % if selected_crop:
+            <h2 style="text-align: center"><b>Yield Prediction for {{ selected_crop }}</b></h2>
+            % if yield_chart:
+                <img src="/static/images/{{ yield_chart }}" alt="Yield Prediction Chart" >
+                
+                <!-- Metrics Section -->
+                <div class="matr">
+                    <!-- <h3>Model Performance Metrics:</h3> -->
+                    {{!metrics_html}}
+                </div>
+            % else:
+                <p>No data available for {{ selected_crop }}.</p>
+            % end
+        % end
+    </main>
+    <!-- <footer>
+       <p><b>by Abhishek Yadav</b></p>
+   </footer> -->
+</body>
+</html>
